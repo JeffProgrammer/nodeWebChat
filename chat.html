@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<!-- jQuery -->
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+ 		<!-- SocketIO -->
+ 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script>
+
+ 		<title>WebChat</title>
+	</head>
+
+	<body>
+		<h1>Chat</h1>
+		<div id="chatBox"></div>
+		<input type="text" id="chatMessage" />
+		<button id="sendMessage">Submit</button>
+	</body>
+
+	<script type="text/javascript">
+		var socket = io();
+
+		socket.on('connect', function() {
+
+			$('#sendMessage').click(function() {
+				var message = $('#chatMessage').val();
+				if (message === "")
+					return;
+
+				socket.emit('message', message);
+
+				// clears chat box.
+				$('#chatMessage').val('');
+			});
+
+			socket.on('messageReceived', function(data) {
+				// We have received a message, add it to the HTML div.
+				var p = $('<p></p>');
+				p.text("Message: " + data);
+				$('#chatBox').append(p);
+			});
+		});
+	</script>	
+</html>
