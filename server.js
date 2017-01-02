@@ -6,6 +6,10 @@ app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/chat.html');
 });
 
+app.get('/client.js', (req, res) => {
+	res.sendFile(__dirname + "/client.js");
+});
+
 io.on('connection', function(socket) {
 	// Connected!
 	console.log("A client has connected!");
